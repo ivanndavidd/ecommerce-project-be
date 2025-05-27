@@ -183,7 +183,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/public/product",
+							"raw": "http://localhost:8080/api/public/product?page=0&size=10&sortBy=productName&sortOrder=desc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -193,6 +193,24 @@
 								"api",
 								"public",
 								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "productName"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
 							]
 						}
 					},

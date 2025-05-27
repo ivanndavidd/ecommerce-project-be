@@ -1,12 +1,11 @@
 package com.example.ecommerce_project.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor //this annotation is to give a default value constructor of the class
 //@Getter
@@ -22,6 +21,9 @@ public class Category {
     @NotBlank
     @Size(min =5, message = "Category should contain 5 characters")
     private String categoryName;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
 
     //the code below is not needed anymore because the code is use annotation LOMBOK @AllArgsConstructor
 /*    public Category(Long categoryId, String categoryName) {

@@ -15,7 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -61,11 +63,11 @@ public class CartServiceImpl implements CartService {
 
         cartItemRepository.save(newCartItem);
 
+        products.setQuantity(products.getQuantity());
+
         cart.setTotalPrice(cart.getTotalPrice() + (products.getSpecialPrice()*quantity));
 
         cartRepository.save(cart);
-
-        products.setQuantity(products.getQuantity());
 
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
         List<CartItem> cartItemList = cart.getCartItems();
@@ -80,6 +82,21 @@ public class CartServiceImpl implements CartService {
         return cartDTO;
     }
 
+    @Override
+    public List<CartDTO> getAllCarts() {
+        List<Cart> carts = cartRepository.findAll();
+        if(carts.size() == 0){
+            throw new ResourceNotFoundException("Cart", "id", carts.get(0).getCartId());
+        }
+        List<CartDTO> cartDTOList = carts.stream().map(cart -> {
+            CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
+            List<ProductDTO> products = cart.getCartItems().stream().map(p -> modelMapper.map(p, ProductDTO.class)).collect(Collectors.toList());
+            cartDTO.setProducts(products);
+            return cartDTO;
+        }).collect(Collectors.toList());
+        return cartDTOList;
+    }
+
     private Cart createCart() {
         Cart userCart = cartRepository.findCartByEmail(authUtil.loggedInEmail());
         if (userCart != null) {
@@ -91,4 +108,5 @@ public class CartServiceImpl implements CartService {
         Cart newCart = cartRepository.save(cart);
         return newCart;
     }
+
 }

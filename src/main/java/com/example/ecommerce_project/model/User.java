@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Data
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "userName"), @UniqueConstraint(columnNames = "email")})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username"), @UniqueConstraint(columnNames = "email")})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,13 @@ public class User {
 
     @NotBlank
     @Size(min = 1, max = 20)
+    @Column(name = "username")
     private String userName;
 
     @NotBlank
-    @Size(min = 1, max = 50)
-    @Email
+    @Size(max = 120)
+    @Email(message = "Email should be valid")
+    @Column(name = "email")
     private String email;
 
     @NotBlank
@@ -51,6 +53,10 @@ public class User {
     @ManyToMany
     @JoinTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<Address> addresses = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)

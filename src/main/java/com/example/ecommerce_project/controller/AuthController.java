@@ -5,7 +5,7 @@ import com.example.ecommerce_project.model.AppRole;
 import com.example.ecommerce_project.model.Role;
 import com.example.ecommerce_project.model.User;
 import com.example.ecommerce_project.repositories.RoleRepository;
-import com.example.ecommerce_project.security.JwtUtils;
+import com.example.ecommerce_project.security.jwt.JwtUtils;
 import com.example.ecommerce_project.repositories.UserRepository;
 import com.example.ecommerce_project.security.request.LoginRequest;
 import com.example.ecommerce_project.security.request.SignupRequest;

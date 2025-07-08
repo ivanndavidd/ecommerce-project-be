@@ -50,8 +50,8 @@ public class User {
 
     @Getter
     @Setter
-    @ManyToMany
-    @JoinTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
+    @OneToMany(mappedBy ="user", cascade = {CascadeType.ALL})
+//    @JoinTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<Address> addresses = new ArrayList<>();
 
     @ToString.Exclude
